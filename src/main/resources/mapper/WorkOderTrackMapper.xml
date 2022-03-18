@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="A1.Care.mapper.WorkOderTrackMapper">
+
+    <resultMap id="BaseResultMap" type="A1.Care.domain.WorkOderTrack">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="repairId" column="repair_id" jdbcType="INTEGER"/>
+            <result property="operateUserId" column="operate_user_id" jdbcType="INTEGER"/>
+            <result property="operateUser" column="operate_user" jdbcType="VARCHAR"/>
+            <result property="detailedDescription" column="detailed_description" jdbcType="VARCHAR"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,repair_id,operate_user_id,
+        operate_user,detailed_description,remark
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from customer_care_work_oder_track
+        where  id = #{id,jdbcType=INTEGER} 
+    </select>
+    <select id="searchAllByRepairIdWorkOrderVo" resultType="A1.Care.vo.WorkOrderVo">
+        SELECT
+            customer_care_work_oder_track.*,
+            USER.`name` AS operate_user_name
+        FROM
+            `customer_care_work_oder_track`
+                LEFT JOIN USER ON customer_care_work_oder_track.operate_user_id = USER.id
+        WHERE
+            customer_care_work_oder_track.repair_id = #{id}
+        ORDER BY
+            customer_care_work_oder_track.id DESC
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from customer_care_work_oder_track
+        where  id = #{id,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Care.domain.WorkOderTrack" useGeneratedKeys="true">
+        insert into customer_care_work_oder_track
+        ( id,repair_id,operate_user_id
+        ,operate_user,detailed_description,remark
+        )
+        values (#{id,jdbcType=INTEGER},#{repairId,jdbcType=INTEGER},#{operateUserId,jdbcType=INTEGER}
+        ,#{operateUser,jdbcType=VARCHAR},#{detailedDescription,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="A1.Care.domain.WorkOderTrack" useGeneratedKeys="true">
+        insert into customer_care_work_oder_track
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="repairId != null">repair_id,</if>
+                <if test="operateUserId != null">operate_user_id,</if>
+                <if test="operateUser != null">operate_user,</if>
+                <if test="detailedDescription != null">detailed_description,</if>
+                <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="repairId != null">#{repairId,jdbcType=INTEGER},</if>
+                <if test="operateUserId != null">#{operateUserId,jdbcType=INTEGER},</if>
+                <if test="operateUser != null">#{operateUser,jdbcType=VARCHAR},</if>
+                <if test="detailedDescription != null">#{detailedDescription,jdbcType=VARCHAR},</if>
+                <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="A1.Care.domain.WorkOderTrack">
+        update customer_care_work_oder_track
+        <set>
+                <if test="repairId != null">
+                    repair_id = #{repairId,jdbcType=INTEGER},
+                </if>
+                <if test="operateUserId != null">
+                    operate_user_id = #{operateUserId,jdbcType=INTEGER},
+                </if>
+                <if test="operateUser != null">
+                    operate_user = #{operateUser,jdbcType=VARCHAR},
+                </if>
+                <if test="detailedDescription != null">
+                    detailed_description = #{detailedDescription,jdbcType=VARCHAR},
+                </if>
+                <if test="remark != null">
+                    remark = #{remark,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="A1.Care.domain.WorkOderTrack">
+        update customer_care_work_oder_track
+        set 
+            repair_id =  #{repairId,jdbcType=INTEGER},
+            operate_user_id =  #{operateUserId,jdbcType=INTEGER},
+            operate_user =  #{operateUser,jdbcType=VARCHAR},
+            detailed_description =  #{detailedDescription,jdbcType=VARCHAR},
+            remark =  #{remark,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>

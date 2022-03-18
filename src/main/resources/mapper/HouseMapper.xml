@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="A1.Space.mapper.HouseMapper">
+
+    <resultMap id="BaseResultMap" type="A1.Space.domain.House">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="buildId" column="build_id" jdbcType="INTEGER"/>
+        <result property="constructionArea" column="construction_area" jdbcType="DOUBLE"/>
+        <result property="floor" column="floor" jdbcType="INTEGER"/>
+        <result property="floorFactor" column="floor_factor" jdbcType="DOUBLE"/>
+        <result property="houseNum" column="house_num" jdbcType="VARCHAR"/>
+        <result property="houseState" column="house_state" jdbcType="VARCHAR"/>
+        <result property="houseType" column="house_type" jdbcType="VARCHAR"/>
+        <result property="setArea" column="set_area" jdbcType="DOUBLE"/>
+        <result property="shareArea" column="share_area" jdbcType="DOUBLE"/>
+        <result property="standardAddress" column="standard_address" jdbcType="VARCHAR"/>
+        <result property="unit" column="unit" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,build_id,construction_area,
+        floor,floor_factor,house_num,
+        house_state,house_type,set_area,
+        share_area,standard_address,unit,
+        user_id
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from space_house
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAllByBuildIdUsers" resultType="A1.User.domain.User">
+        select *
+        from space_house
+        where build_id = #{id}
+    </select>
+    <select id="selectAllByBuildIdHouseVos" resultType="A1.Space.vo.HouseVO">
+        select space_house.*, space_build.build_name
+        from space_house,
+             space_build
+        where space_house.build_id = space_build.id
+          and space_house.build_id = #{buildId};
+    </select>
+    <select id="selectAllByUserIdHouseVos" resultType="A1.Space.vo.HouseVO">
+        select space_house.*, space_build.build_name
+        from space_house,
+             space_build
+        where space_house.build_id = space_build.id
+          and space_house.user_id = #{userId};
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from space_house
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Space.domain.House" useGeneratedKeys="true">
+        insert into space_house
+        ( id, build_id, construction_area
+        , floor, floor_factor, house_num
+        , house_state, house_type, set_area
+        , share_area, standard_address, unit
+        , user_id)
+        values ( #{id,jdbcType=INTEGER}, #{buildId,jdbcType=INTEGER}, #{constructionArea,jdbcType=DOUBLE}
+               , #{floor,jdbcType=INTEGER}, #{floorFactor,jdbcType=DOUBLE}, #{houseNum,jdbcType=VARCHAR}
+               , #{houseState,jdbcType=VARCHAR}, #{houseType,jdbcType=VARCHAR}, #{setArea,jdbcType=DOUBLE}
+               , #{shareArea,jdbcType=DOUBLE}, #{standardAddress,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}
+               , #{userId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="A1.Space.domain.House"
+            useGeneratedKeys="true">
+        insert into space_house
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="buildId != null">build_id,</if>
+            <if test="constructionArea != null">construction_area,</if>
+            <if test="floor != null">floor,</if>
+            <if test="floorFactor != null">floor_factor,</if>
+            <if test="houseNum != null">house_num,</if>
+            <if test="houseState != null">house_state,</if>
+            <if test="houseType != null">house_type,</if>
+            <if test="setArea != null">set_area,</if>
+            <if test="shareArea != null">share_area,</if>
+            <if test="standardAddress != null">standard_address,</if>
+            <if test="unit != null">unit,</if>
+            <if test="userId != null">user_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=INTEGER},</if>
+            <if test="buildId != null">#{buildId,jdbcType=INTEGER},</if>
+            <if test="constructionArea != null">#{constructionArea,jdbcType=DOUBLE},</if>
+            <if test="floor != null">#{floor,jdbcType=INTEGER},</if>
+            <if test="floorFactor != null">#{floorFactor,jdbcType=DOUBLE},</if>
+            <if test="houseNum != null">#{houseNum,jdbcType=VARCHAR},</if>
+            <if test="houseState != null">#{houseState,jdbcType=VARCHAR},</if>
+            <if test="houseType != null">#{houseType,jdbcType=VARCHAR},</if>
+            <if test="setArea != null">#{setArea,jdbcType=DOUBLE},</if>
+            <if test="shareArea != null">#{shareArea,jdbcType=DOUBLE},</if>
+            <if test="standardAddress != null">#{standardAddress,jdbcType=VARCHAR},</if>
+            <if test="unit != null">#{unit,jdbcType=VARCHAR},</if>
+            <if test="userId != null">#{userId,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="A1.Space.domain.House">
+        update space_house
+        <set>
+            <if test="buildId != null">
+                build_id = #{buildId,jdbcType=INTEGER},
+            </if>
+            <if test="constructionArea != null">
+                construction_area = #{constructionArea,jdbcType=DOUBLE},
+            </if>
+            <if test="floor != null">
+                floor = #{floor,jdbcType=INTEGER},
+            </if>
+            <if test="floorFactor != null">
+                floor_factor = #{floorFactor,jdbcType=DOUBLE},
+            </if>
+            <if test="houseNum != null">
+                house_num = #{houseNum,jdbcType=VARCHAR},
+            </if>
+            <if test="houseState != null">
+                house_state = #{houseState,jdbcType=VARCHAR},
+            </if>
+            <if test="houseType != null">
+                house_type = #{houseType,jdbcType=VARCHAR},
+            </if>
+            <if test="setArea != null">
+                set_area = #{setArea,jdbcType=DOUBLE},
+            </if>
+            <if test="shareArea != null">
+                share_area = #{shareArea,jdbcType=DOUBLE},
+            </if>
+            <if test="standardAddress != null">
+                standard_address = #{standardAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="A1.Space.domain.House">
+        update space_house
+        set build_id          = #{buildId,jdbcType=INTEGER},
+            construction_area = #{constructionArea,jdbcType=DOUBLE},
+            floor             = #{floor,jdbcType=INTEGER},
+            floor_factor      = #{floorFactor,jdbcType=DOUBLE},
+            house_num         = #{houseNum,jdbcType=VARCHAR},
+            house_state       = #{houseState,jdbcType=VARCHAR},
+            house_type        = #{houseType,jdbcType=VARCHAR},
+            set_area          = #{setArea,jdbcType=DOUBLE},
+            share_area        = #{shareArea,jdbcType=DOUBLE},
+            standard_address  = #{standardAddress,jdbcType=VARCHAR},
+            unit              = #{unit,jdbcType=VARCHAR},
+            user_id           = #{userId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

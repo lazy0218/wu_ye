@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="A1.Space.mapper.BuildMapper">
+
+    <resultMap id="BaseResultMap" type="A1.Space.domain.Build">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="buildName" column="build_name" jdbcType="VARCHAR"/>
+            <result property="communityId" column="community_id" jdbcType="INTEGER"/>
+            <result property="endFloor" column="end_floor" jdbcType="INTEGER"/>
+            <result property="isAirplane" column="is_airplane" jdbcType="BIT"/>
+            <result property="isElevator" column="is_elevator" jdbcType="BIT"/>
+            <result property="isUndergroundParkingLot" column="is_underground_parking_lot" jdbcType="BIT"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="startFloor" column="start_floor" jdbcType="INTEGER"/>
+            <result property="totalArea" column="total_area" jdbcType="DOUBLE"/>
+            <result property="totalHouses" column="total_houses" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,build_name,community_id,
+        end_floor,is_airplane,is_elevator,
+        is_underground_parking_lot,remark,start_floor,
+        total_area,total_houses
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from space_build
+        where  id = #{id,jdbcType=INTEGER} 
+    </select>
+    <select id="findAllByCommunityIdBuilds" resultType="A1.Space.domain.Build">
+        select * from space_build where community_id=#{id}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from space_build
+        where  id = #{id,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Space.domain.Build" useGeneratedKeys="true">
+        insert into space_build
+        ( id,build_name,community_id
+        ,end_floor,is_airplane,is_elevator
+        ,is_underground_parking_lot,remark,start_floor
+        ,total_area,total_houses)
+        values (#{id,jdbcType=INTEGER},#{buildName,jdbcType=VARCHAR},#{communityId,jdbcType=INTEGER}
+        ,#{endFloor,jdbcType=INTEGER},#{isAirplane,jdbcType=BIT},#{isElevator,jdbcType=BIT}
+        ,#{isUndergroundParkingLot,jdbcType=BIT},#{remark,jdbcType=VARCHAR},#{startFloor,jdbcType=INTEGER}
+        ,#{totalArea,jdbcType=DOUBLE},#{totalHouses,jdbcType=DOUBLE})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="A1.Space.domain.Build" useGeneratedKeys="true">
+        insert into space_build
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="buildName != null">build_name,</if>
+                <if test="communityId != null">community_id,</if>
+                <if test="endFloor != null">end_floor,</if>
+                <if test="isAirplane != null">is_airplane,</if>
+                <if test="isElevator != null">is_elevator,</if>
+                <if test="isUndergroundParkingLot != null">is_underground_parking_lot,</if>
+                <if test="remark != null">remark,</if>
+                <if test="startFloor != null">start_floor,</if>
+                <if test="totalArea != null">total_area,</if>
+                <if test="totalHouses != null">total_houses,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="buildName != null">#{buildName,jdbcType=VARCHAR},</if>
+                <if test="communityId != null">#{communityId,jdbcType=INTEGER},</if>
+                <if test="endFloor != null">#{endFloor,jdbcType=INTEGER},</if>
+                <if test="isAirplane != null">#{isAirplane,jdbcType=BIT},</if>
+                <if test="isElevator != null">#{isElevator,jdbcType=BIT},</if>
+                <if test="isUndergroundParkingLot != null">#{isUndergroundParkingLot,jdbcType=BIT},</if>
+                <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+                <if test="startFloor != null">#{startFloor,jdbcType=INTEGER},</if>
+                <if test="totalArea != null">#{totalArea,jdbcType=DOUBLE},</if>
+                <if test="totalHouses != null">#{totalHouses,jdbcType=DOUBLE},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="A1.Space.domain.Build">
+        update space_build
+        <set>
+                <if test="buildName != null">
+                    build_name = #{buildName,jdbcType=VARCHAR},
+                </if>
+                <if test="communityId != null">
+                    community_id = #{communityId,jdbcType=INTEGER},
+                </if>
+                <if test="endFloor != null">
+                    end_floor = #{endFloor,jdbcType=INTEGER},
+                </if>
+                <if test="isAirplane != null">
+                    is_airplane = #{isAirplane,jdbcType=BIT},
+                </if>
+                <if test="isElevator != null">
+                    is_elevator = #{isElevator,jdbcType=BIT},
+                </if>
+                <if test="isUndergroundParkingLot != null">
+                    is_underground_parking_lot = #{isUndergroundParkingLot,jdbcType=BIT},
+                </if>
+                <if test="remark != null">
+                    remark = #{remark,jdbcType=VARCHAR},
+                </if>
+                <if test="startFloor != null">
+                    start_floor = #{startFloor,jdbcType=INTEGER},
+                </if>
+                <if test="totalArea != null">
+                    total_area = #{totalArea,jdbcType=DOUBLE},
+                </if>
+                <if test="totalHouses != null">
+                    total_houses = #{totalHouses,jdbcType=DOUBLE},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="A1.Space.domain.Build">
+        update space_build
+        set 
+            build_name =  #{buildName,jdbcType=VARCHAR},
+            community_id =  #{communityId,jdbcType=INTEGER},
+            end_floor =  #{endFloor,jdbcType=INTEGER},
+            is_airplane =  #{isAirplane,jdbcType=BIT},
+            is_elevator =  #{isElevator,jdbcType=BIT},
+            is_underground_parking_lot =  #{isUndergroundParkingLot,jdbcType=BIT},
+            remark =  #{remark,jdbcType=VARCHAR},
+            start_floor =  #{startFloor,jdbcType=INTEGER},
+            total_area =  #{totalArea,jdbcType=DOUBLE},
+            total_houses =  #{totalHouses,jdbcType=DOUBLE}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>

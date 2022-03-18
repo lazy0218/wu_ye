@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="A1.User.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="A1.User.domain.User">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
+            <result property="corpId" column="corp_id" jdbcType="VARCHAR"/>
+            <result property="dingOpenid" column="ding_openid" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="sourceFrom" column="source_from" jdbcType="VARCHAR"/>
+            <result property="wxOpenid" column="wx_openid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,avatar_url,corp_id,
+        ding_openid,email,mobile,
+        name,password,source_from,
+        wx_openid
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+    <select id="selectAllByDingOpenidUser" resultType="A1.User.domain.User">
+        select * from user where ding_openid=#{openId}
+    </select>
+    <select id="selectByRoleUsers" resultType="A1.User.domain.User">
+        select * from user where role='物业人员'
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from user
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.User.domain.User" useGeneratedKeys="true">
+        insert into user
+        ( id,avatar_url,corp_id
+        ,ding_openid,email,mobile
+        ,name,password,source_from
+        ,wx_openid)
+        values (#{id,jdbcType=BIGINT},#{avatarUrl,jdbcType=VARCHAR},#{corpId,jdbcType=VARCHAR}
+        ,#{dingOpenid,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR}
+        ,#{name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{sourceFrom,jdbcType=VARCHAR}
+        ,#{wxOpenid,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="A1.User.domain.User" useGeneratedKeys="true">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="avatarUrl != null">avatar_url,</if>
+                <if test="corpId != null">corp_id,</if>
+                <if test="dingOpenid != null">ding_openid,</if>
+                <if test="email != null">email,</if>
+                <if test="mobile != null">mobile,</if>
+                <if test="name != null">name,</if>
+                <if test="password != null">password,</if>
+                <if test="sourceFrom != null">source_from,</if>
+                <if test="wxOpenid != null">wx_openid,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="avatarUrl != null">#{avatarUrl,jdbcType=VARCHAR},</if>
+                <if test="corpId != null">#{corpId,jdbcType=VARCHAR},</if>
+                <if test="dingOpenid != null">#{dingOpenid,jdbcType=VARCHAR},</if>
+                <if test="email != null">#{email,jdbcType=VARCHAR},</if>
+                <if test="mobile != null">#{mobile,jdbcType=VARCHAR},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+                <if test="sourceFrom != null">#{sourceFrom,jdbcType=VARCHAR},</if>
+                <if test="wxOpenid != null">#{wxOpenid,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="A1.User.domain.User">
+        update user
+        <set>
+                <if test="avatarUrl != null">
+                    avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+                </if>
+                <if test="corpId != null">
+                    corp_id = #{corpId,jdbcType=VARCHAR},
+                </if>
+                <if test="dingOpenid != null">
+                    ding_openid = #{dingOpenid,jdbcType=VARCHAR},
+                </if>
+                <if test="email != null">
+                    email = #{email,jdbcType=VARCHAR},
+                </if>
+                <if test="mobile != null">
+                    mobile = #{mobile,jdbcType=VARCHAR},
+                </if>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="password != null">
+                    password = #{password,jdbcType=VARCHAR},
+                </if>
+                <if test="sourceFrom != null">
+                    source_from = #{sourceFrom,jdbcType=VARCHAR},
+                </if>
+                <if test="wxOpenid != null">
+                    wx_openid = #{wxOpenid,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="A1.User.domain.User">
+        update user
+        set 
+            avatar_url =  #{avatarUrl,jdbcType=VARCHAR},
+            corp_id =  #{corpId,jdbcType=VARCHAR},
+            ding_openid =  #{dingOpenid,jdbcType=VARCHAR},
+            email =  #{email,jdbcType=VARCHAR},
+            mobile =  #{mobile,jdbcType=VARCHAR},
+            name =  #{name,jdbcType=VARCHAR},
+            password =  #{password,jdbcType=VARCHAR},
+            source_from =  #{sourceFrom,jdbcType=VARCHAR},
+            wx_openid =  #{wxOpenid,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+</mapper>

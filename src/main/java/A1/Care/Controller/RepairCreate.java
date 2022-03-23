@@ -1,12 +1,10 @@
 package A1.Care.Controller;
 
 import A1.Care.domain.Repair;
-import A1.Care.domain.RepairType;
 import A1.Care.domain.WorkOderTrack;
 import A1.Care.mapper.RepairMapper;
 import A1.Care.mapper.RepairTypeMapper;
 import A1.Care.mapper.WorkOderTrackMapper;
-import A1.Care.vo.RepairVo;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

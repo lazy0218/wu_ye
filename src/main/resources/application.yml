@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/wu_ye?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf-8
+    url: jdbc:mysql://bj-cynosdbmysql-grp-59ys1ptm.sql.tencentcdb.com:28262/wu_ye?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf-8
     username: root
-    password: 123456
+    password: "!yanruisong123"
   main:
     banner-mode: off
   mvc:

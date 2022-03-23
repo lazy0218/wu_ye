@@ -8,7 +8,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
-import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
@@ -58,4 +57,12 @@ public class HouseCorotroller {
         return ResultData.success("");
     }
 
+    @ApiOperation("修改房屋信息")
+    @PutMapping("/house")
+    public ResultData<String> putHouse(@RequestBody House house)
+    {
+        logger.debug(String.valueOf(house));
+        houseMapper.updateByPrimaryKey(house);
+        return ResultData.success("更新成功");
+    }
 }

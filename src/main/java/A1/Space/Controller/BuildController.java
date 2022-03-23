@@ -2,12 +2,13 @@ package A1.Space.Controller;
 
 import A1.AOP.Response.ResultData;
 import A1.Space.domain.Build;
-import A1.Space.domain.House;
 import A1.Space.mapper.BuildMapper;
 import A1.Space.mapper.CommunityMapper;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/space")
 public class BuildController {
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     @Resource
     CommunityMapper communityMapper;
     @Resource
@@ -42,6 +45,15 @@ public class BuildController {
     @DeleteMapping("/build")
     public void deleteHouse(@RequestParam Long buildId) {
         buildMapper.deleteByPrimaryKey(buildId);
+    }
+
+    @ApiOperation("修改楼栋信息")
+    @PutMapping("/build")
+    public ResultData<String> putBuild(@RequestBody Build build)
+    {
+        logger.debug(String.valueOf(build));
+        buildMapper.updateByPrimaryKey(build);
+        return ResultData.success("更新成功");
     }
 
 

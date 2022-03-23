@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Validated
-@Api(tags = "资产")
+@Api(tags = "资产管理")
 @RestController
 @RequestMapping("/api/space")
 public class HouseCorotroller {

@@ -3,14 +3,13 @@ package A1.User.service;
 import A1.User.domain.DingGetUserInfo;
 import A1.User.domain.User;
 import A1.User.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.aliyun.dingtalkcontact_1_0.models.GetUserHeaders;
 import com.aliyun.dingtalkcontact_1_0.models.GetUserResponse;
 import com.aliyun.dingtalkoauth2_1_0.models.GetUserTokenRequest;
 import com.aliyun.dingtalkoauth2_1_0.models.GetUserTokenResponse;
 import com.aliyun.teaopenapi.models.Config;
-import com.aliyun.teautil.models.RuntimeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 
 @Service

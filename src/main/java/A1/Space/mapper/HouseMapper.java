@@ -2,7 +2,6 @@ package A1.Space.mapper;
 
 import A1.Space.domain.House;
 import A1.Space.vo.HouseVO;
-import A1.User.domain.User;
 
 import java.util.List;
 

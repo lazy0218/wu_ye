@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="A1.Space.mapper.CarportMapper">
+
+    <resultMap id="BaseResultMap" type="A1.Space.domain.Carport">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="carportState" column="carport_state" jdbcType="OTHER"/>
+        <result property="carportType" column="carport_type" jdbcType="OTHER"/>
+        <result property="carportNum" column="carport_num" jdbcType="VARCHAR"/>
+        <result property="parkingId" column="parking_id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="area" column="area" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,carport_state,carport_type,
+        carport_num,parking_id,user_id,
+        area
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from space_carport
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultType="A1.Space.vo.CarPortVO">
+        SELECT space_carport.*,
+               user.`name`              as user_name,
+               user.avatar_url          as user_avatar_url,
+               user.mobile              as user_mobile,
+               space_park.car_park_name as car_park_name
+        FROM space_carport
+                 LEFT JOIN user ON space_carport.user_id = user.id
+                 LEFT JOIN space_park ON space_carport.parking_id = space_park.id
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from space_carport
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Space.domain.Carport" useGeneratedKeys="true">
+        insert into space_carport
+        ( id, carport_state, carport_type
+        , carport_num, parking_id, user_id
+        , area)
+        values ( #{id,jdbcType=INTEGER}, #{carportState,jdbcType=OTHER}, #{carportType,jdbcType=OTHER}
+               , #{carportNum,jdbcType=VARCHAR}, #{parkingId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}
+               , #{area,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="A1.Space.domain.Carport"
+            useGeneratedKeys="true">
+        insert into space_carport
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="carportState != null">carport_state,</if>
+            <if test="carportType != null">carport_type,</if>
+            <if test="carportNum != null">carport_num,</if>
+            <if test="parkingId != null">parking_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="area != null">area,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=INTEGER},</if>
+            <if test="carportState != null">#{carportState,jdbcType=OTHER},</if>
+            <if test="carportType != null">#{carportType,jdbcType=OTHER},</if>
+            <if test="carportNum != null">#{carportNum,jdbcType=VARCHAR},</if>
+            <if test="parkingId != null">#{parkingId,jdbcType=BIGINT},</if>
+            <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+            <if test="area != null">#{area,jdbcType=DECIMAL},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="A1.Space.domain.Carport">
+        update space_carport
+        <set>
+            <if test="carportState != null">
+                carport_state = #{carportState,jdbcType=OTHER},
+            </if>
+            <if test="carportType != null">
+                carport_type = #{carportType,jdbcType=OTHER},
+            </if>
+            <if test="carportNum != null">
+                carport_num = #{carportNum,jdbcType=VARCHAR},
+            </if>
+            <if test="parkingId != null">
+                parking_id = #{parkingId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="area != null">
+                area = #{area,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="A1.Space.domain.Carport">
+        update space_carport
+        set carport_state = #{carportState,jdbcType=OTHER},
+            carport_type  = #{carportType,jdbcType=OTHER},
+            carport_num   = #{carportNum,jdbcType=VARCHAR},
+            parking_id    = #{parkingId,jdbcType=BIGINT},
+            user_id       = #{userId,jdbcType=BIGINT},
+            area          = #{area,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="A1.Space.mapper.CarMapper">
+
+    <resultMap id="BaseResultMap" type="A1.Space.domain.Car">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="ownerid" column="ownerid" jdbcType="INTEGER"/>
+        <result property="carportId" column="carport_id" jdbcType="BIGINT"/>
+        <result property="isHouseholder" column="is_householder" jdbcType="BIT"/>
+        <result property="licensePlate" column="license_plate" jdbcType="VARCHAR"/>
+        <result property="carBrand" column="car_brand" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,ownerid,carport_id,
+        is_householder,license_plate,car_brand
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from space_car
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultType="A1.Space.vo.CarVO">
+        SELECT space_car.*,
+               user.name                 as user_name,
+               user.avatar_url           as avatar,
+               user.mobile               as mobile,
+               space_carport.carport_num AS carport_num,
+               space_park.car_park_name  as car_park_name
+        FROM `space_car`
+                 LEFT JOIN user on space_car.ownerid = user.id
+                 LEFT JOIN space_carport on space_car.carport_id = space_carport.id
+                 LEFT JOIN space_park on space_carport.parking_id = space_park.id
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from space_car
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Space.domain.Car" useGeneratedKeys="true">
+        insert into space_car
+        ( id, ownerid, carport_id
+        , is_householder, license_plate, car_brand)
+        values ( #{id,jdbcType=INTEGER}, #{ownerid,jdbcType=INTEGER}, #{carportId,jdbcType=BIGINT}
+               , #{isHouseholder,jdbcType=BIT}, #{licensePlate,jdbcType=VARCHAR}, #{carBrand,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="A1.Space.domain.Car"
+            useGeneratedKeys="true">
+        insert into space_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="ownerid != null">ownerid,</if>
+            <if test="carportId != null">carport_id,</if>
+            <if test="isHouseholder != null">is_householder,</if>
+            <if test="licensePlate != null">license_plate,</if>
+            <if test="carBrand != null">car_brand,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=INTEGER},</if>
+            <if test="ownerid != null">#{ownerid,jdbcType=INTEGER},</if>
+            <if test="carportId != null">#{carportId,jdbcType=BIGINT},</if>
+            <if test="isHouseholder != null">#{isHouseholder,jdbcType=BIT},</if>
+            <if test="licensePlate != null">#{licensePlate,jdbcType=VARCHAR},</if>
+            <if test="carBrand != null">#{carBrand,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="A1.Space.domain.Car">
+        update space_car
+        <set>
+            <if test="ownerid != null">
+                ownerid = #{ownerid,jdbcType=INTEGER},
+            </if>
+            <if test="carportId != null">
+                carport_id = #{carportId,jdbcType=BIGINT},
+            </if>
+            <if test="isHouseholder != null">
+                is_householder = #{isHouseholder,jdbcType=BIT},
+            </if>
+            <if test="licensePlate != null">
+                license_plate = #{licensePlate,jdbcType=VARCHAR},
+            </if>
+            <if test="carBrand != null">
+                car_brand = #{carBrand,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="A1.Space.domain.Car">
+        update space_car
+        set ownerid        = #{ownerid,jdbcType=INTEGER},
+            carport_id     = #{carportId,jdbcType=BIGINT},
+            is_householder = #{isHouseholder,jdbcType=BIT},
+            license_plate  = #{licensePlate,jdbcType=VARCHAR},
+            car_brand      = #{carBrand,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

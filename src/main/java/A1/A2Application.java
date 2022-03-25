@@ -1,7 +1,5 @@
 package A1;
 
-import A1.User.domain.User;
-import A1.User.mapper.UserMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

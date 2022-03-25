@@ -1,7 +1,6 @@
 package A1.User.mapper;
 
 import A1.User.domain.User;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

@@ -40,18 +40,26 @@
         where build_id = #{id}
     </select>
     <select id="selectAllByBuildIdHouseVos" resultType="A1.Space.vo.HouseVO">
-        select space_house.*, space_build.build_name
-        from space_house,
-             space_build
-        where space_house.build_id = space_build.id
-          and space_house.build_id = #{buildId};
+        SELECT space_house.*,
+               space_build.build_name as build_name,
+               `user`.avatar_url      as avatar,
+               `user`.`name`          as name,
+               `user`.mobile          as mobile
+        FROM `space_house`
+                 LEFT JOIN space_build ON space_house.build_id = space_build.id
+                 LEFT JOIN user on space_house.user_id = `user`.id
+        where space_house.build_id = #{buildId}
     </select>
     <select id="selectAllByUserIdHouseVos" resultType="A1.Space.vo.HouseVO">
-        select space_house.*, space_build.build_name
-        from space_house,
-             space_build
-        where space_house.build_id = space_build.id
-          and space_house.user_id = #{userId};
+        SELECT space_house.*,
+               space_build.build_name as build_name,
+               `user`.avatar_url      as avatar,
+               `user`.`name`          as name,
+               `user`.mobile          as mobile
+        FROM `space_house`
+                 LEFT JOIN space_build ON space_house.build_id = space_build.id
+                 LEFT JOIN user on space_house.user_id = `user`.id
+        where space_house.build_id = 1
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

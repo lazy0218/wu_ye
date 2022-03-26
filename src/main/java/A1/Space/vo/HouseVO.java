@@ -5,7 +5,6 @@ public class HouseVO {
     private Integer buildId;
     private Double constructionArea;
     private Integer floor;
-    private Double floorFactor;
     private String houseNum;
     private String houseState;
     private String houseType;
@@ -13,8 +12,10 @@ public class HouseVO {
     private Double shareArea;
     private String standardAddress;
     private String unit;
-    private Integer userId;
+    private String name;
     private String buildName;
+    private String avatar;
+    private String mobile;
 
     public Integer getSpace_houseId() {
         return space_houseId;
@@ -46,14 +47,6 @@ public class HouseVO {
 
     public void setFloor(Integer floor) {
         this.floor = floor;
-    }
-
-    public Double getFloorFactor() {
-        return floorFactor;
-    }
-
-    public void setFloorFactor(Double floorFactor) {
-        this.floorFactor = floorFactor;
     }
 
     public String getHouseNum() {
@@ -112,12 +105,12 @@ public class HouseVO {
         this.unit = unit;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getName() {
+        return name;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getBuildName() {
@@ -128,26 +121,19 @@ public class HouseVO {
         this.buildName = buildName;
     }
 
-    @Override
-    public String toString() {
-        return "HouseVO{" +
-                "space_houseId=" + space_houseId +
-                ", buildId=" + buildId +
-                ", constructionArea=" + constructionArea +
-                ", floor=" + floor +
-                ", floorFactor=" + floorFactor +
-                ", houseNum='" + houseNum + '\'' +
-                ", houseState='" + houseState + '\'' +
-                ", houseType='" + houseType + '\'' +
-                ", setArea=" + setArea +
-                ", shareArea=" + shareArea +
-                ", standardAddress='" + standardAddress + '\'' +
-                ", unit='" + unit + '\'' +
-                ", userId=" + userId +
-                ", buildName='" + buildName + '\'' +
-                '}';
+    public String getAvatar() {
+        return avatar;
     }
 
-    public HouseVO() {
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

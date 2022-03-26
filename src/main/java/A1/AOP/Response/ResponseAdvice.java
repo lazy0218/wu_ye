@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @phone 18531958592
  * @function T1
  */
-@ControllerAdvice(basePackages = "me.ruson.T1")
+@ControllerAdvice(basePackages = "A1")
 public class ResponseAdvice<T> implements ResponseBodyAdvice<Object> {
     @Autowired
     private ObjectMapper objectMapper;

@@ -35,7 +35,7 @@ ding:
   clientSecret: cJwPwL5djhn5nl-xG09w6SsRb-phdoGFfdVX0EMGS1moOnRAPffCUKvQpK-N_aTi
   authorizeUrl: https://login.dingtalk.com/oauth2/auth?
   accessTokenUrl: https://api.dingtalk.com/v1.0/oauth2/userAccessToken
-  redirectUrl: http%3A%2F%2F106.13.211.200%2Foauth2%2Fcallback
+  redirectUrl: http%3A%2F%2Fyrs.io%2Foauth2%2Fcallback
   #redirectUrl: http%3A%2F%2Flocalhost%2Foauth2%2Fcallback
   userInfoUrl: http://localhost:8080
 sa-token:

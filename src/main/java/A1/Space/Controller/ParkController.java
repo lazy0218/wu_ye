@@ -1,7 +1,7 @@
 package A1.Space.Controller;
 
-import A1.Space.domain.Park;
 import A1.Space.mapper.ParkMapper;
+import A1.Space.vo.ParkVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +22,7 @@ public class ParkController {
 
     @ApiOperation("查询车场")
     @GetMapping("/parks")
-    public List<Park> getParks() {
+    public List<ParkVO> getParks() {
         return parkMapper.selectAll();
     }
 

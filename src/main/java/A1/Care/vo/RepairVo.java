@@ -54,7 +54,9 @@ public class RepairVo {
     /**
      *
      */
-    private LocalDateTime createtime;
+    private LocalDateTime createTime;
+    private String repairAvatar;
+    private String reportAvatar;
 
     /**
      * 是否已被处理
@@ -95,6 +97,30 @@ public class RepairVo {
      * 是否付款
      */
     private Boolean isPay;
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getRepairAvatar() {
+        return repairAvatar;
+    }
+
+    public void setRepairAvatar(String repairAvatar) {
+        this.repairAvatar = repairAvatar;
+    }
+
+    public String getReportAvatar() {
+        return reportAvatar;
+    }
+
+    public void setReportAvatar(String reportAvatar) {
+        this.reportAvatar = reportAvatar;
+    }
 
     public Integer getId() {
         return id;
@@ -176,13 +202,7 @@ public class RepairVo {
         this.communityId = communityId;
     }
 
-    public LocalDateTime getCreatetime() {
-        return createtime;
-    }
 
-    public void setCreatetime(LocalDateTime createtime) {
-        this.createtime = createtime;
-    }
 
     public Boolean getHandle() {
         return isHandle;

@@ -33,6 +33,15 @@ public class Car implements Serializable {
      * 汽车品牌
      */
     private String carBrand;
+    private String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     /**
      *

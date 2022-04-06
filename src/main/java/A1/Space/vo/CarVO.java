@@ -10,6 +10,15 @@ public class CarVO {
     private String carParkName;
     private String licensePlate;
     private String carBrand;
+    private String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public Integer getId() {
         return id;

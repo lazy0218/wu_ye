@@ -36,6 +36,15 @@ public class CarPortVO {
     private BigDecimal area;
     private String userAvatarUrl;
     private String userMobile;
+    private String licensePlate;
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
 
     public Integer getId() {
         return id;

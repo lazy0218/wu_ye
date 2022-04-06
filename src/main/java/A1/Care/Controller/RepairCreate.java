@@ -8,12 +8,15 @@ import A1.Care.mapper.WorkOderTrackMapper;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
+@Slf4j
 @Api(tags = "报事报修")
 @RestController
 @RequestMapping("/api/repair")
@@ -28,7 +31,21 @@ public class RepairCreate {
     @ApiOperation("创建订单")
     @PostMapping("/post")
     public Repair addOrder(@RequestBody Repair repair) {
+        if (repair.getReportUserId() == null) {
+            repair.setReportUserId(StpUtil.getLoginIdAsInt());
+        }
+        repair.setIsHandle(false);
+        repair.setIsPay(false);
+        repair.setSourceFrom("电话登记");
+        repair.setCreateTime(LocalDateTime.now());
         repairMapper.insert(repair);
+        log.info(repair.toString());
+        WorkOderTrack workOderTrack = new WorkOderTrack();
+
+        workOderTrack.setRepairId(repair.getId());
+        workOderTrack.setOperateUserId(Math.toIntExact(repair.getReportUserId()));
+        workOderTrack.setDetailedDescription("创建了");
+        workOderTrackMapper.insert(workOderTrack);
         return repair;
     }
 
@@ -38,10 +55,11 @@ public class RepairCreate {
         Repair repair = repairMapper.selectByPrimaryKey(repairId);
         repair.setRepairUserId(userId);
         repairMapper.updateByPrimaryKeySelective(repair);
+
         WorkOderTrack workOderTrack = new WorkOderTrack();
         workOderTrack.setRepairId(Math.toIntExact(repairId));
         workOderTrack.setOperateUserId(operUserId);
-        workOderTrack.setDetailedDescription("已派单");
+        workOderTrack.setDetailedDescription("派单了");
         workOderTrackMapper.insert(workOderTrack);
         return repair;
     }
@@ -55,7 +73,8 @@ public class RepairCreate {
         repair.setPrice(BigDecimal.valueOf(price));
         WorkOderTrack workOderTrack = new WorkOderTrack();
         workOderTrack.setOperateUserId(Math.toIntExact(StpUtil.getLoginIdAsLong()));
-        workOderTrack.setDetailedDescription("已处理");
+        workOderTrack.setRepairId(Math.toIntExact(repairId));
+        workOderTrack.setDetailedDescription("处理了");
         workOderTrack.setRemark(remark);
         workOderTrackMapper.insert(workOderTrack);
         return repair;
@@ -69,7 +88,8 @@ public class RepairCreate {
         repair.setComment(comment);
         repairMapper.updateByPrimaryKey(repair);
         WorkOderTrack workOderTrack = new WorkOderTrack();
-        workOderTrack.setDetailedDescription("客户已评价");
+        workOderTrack.setRepairId(Math.toIntExact(repairId));
+        workOderTrack.setDetailedDescription("评价了");
         workOderTrack.setRemark(comment);
         workOderTrackMapper.insert(workOderTrack);
         return repair;

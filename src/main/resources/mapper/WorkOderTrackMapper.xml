@@ -6,16 +6,14 @@
 
     <resultMap id="BaseResultMap" type="A1.Care.domain.WorkOderTrack">
             <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="repairId" column="repair_id" jdbcType="INTEGER"/>
+        <result property="repairId" column="repair_id" jdbcType="INTEGER"/>
             <result property="operateUserId" column="operate_user_id" jdbcType="INTEGER"/>
-            <result property="operateUser" column="operate_user" jdbcType="VARCHAR"/>
             <result property="detailedDescription" column="detailed_description" jdbcType="VARCHAR"/>
-            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,repair_id,operate_user_id,
-        operate_user,detailed_description,remark
+        id,repair_id,operate_user_id,detailed_description,remark
     </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -25,30 +23,44 @@
         where  id = #{id,jdbcType=INTEGER} 
     </select>
     <select id="searchAllByRepairIdWorkOrderVo" resultType="A1.Care.vo.WorkOrderVo">
-        SELECT
-            customer_care_work_oder_track.*,
-            USER.`name` AS operate_user_name
-        FROM
-            `customer_care_work_oder_track`
-                LEFT JOIN USER ON customer_care_work_oder_track.operate_user_id = USER.id
-        WHERE
-            customer_care_work_oder_track.repair_id = #{id}
-        ORDER BY
-            customer_care_work_oder_track.id DESC
+        SELECT customer_care_work_oder_track.*,
+               customer_care_repair.remark as description,
+               user.`name`                 as user_name,
+               user.avatar_url             as avatar
+        FROM `customer_care_work_oder_track`
+                 LEFT JOIN customer_care_repair ON customer_care_repair.id = customer_care_work_oder_track.repair_id
+                 LEFT JOIN customer_care_repair_type
+                           ON customer_care_repair.repair_type_id = customer_care_repair_type.id
+                 LEFT join user ON customer_care_work_oder_track.operate_user_id = user.id
+        WHERE customer_care_work_oder_track.repair_id = #{id}
+        ORDER BY customer_care_work_oder_track.id DESC
+    </select>
+    <select id="getAllByTime" resultType="A1.Care.vo.WorkOrderVo">
+        SELECT customer_care_work_oder_track.*,
+               customer_care_repair.remark as description,
+               user.`name`                 as user_name,
+               user.avatar_url             as avatar
+        FROM `customer_care_work_oder_track`
+                 LEFT JOIN customer_care_repair ON customer_care_repair.id = customer_care_work_oder_track.repair_id
+                 LEFT JOIN customer_care_repair_type
+                           ON customer_care_repair.repair_type_id = customer_care_repair_type.id
+                 LEFT join user ON customer_care_work_oder_track.operate_user_id = user.id
+
+        ORDER BY customer_care_work_oder_track.handle_time DESC
+        LIMIT 20
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from customer_care_work_oder_track
-        where  id = #{id,jdbcType=INTEGER} 
+        delete
+        from customer_care_work_oder_track
+        where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Care.domain.WorkOderTrack" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Care.domain.WorkOderTrack"
+            useGeneratedKeys="true">
         insert into customer_care_work_oder_track
-        ( id,repair_id,operate_user_id
-        ,operate_user,detailed_description,remark
-        )
-        values (#{id,jdbcType=INTEGER},#{repairId,jdbcType=INTEGER},#{operateUserId,jdbcType=INTEGER}
-        ,#{operateUser,jdbcType=VARCHAR},#{detailedDescription,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR}
-        )
+        (id, repair_id, operate_user_id, detailed_description, remark)
+        values ( #{id,jdbcType=INTEGER}, #{repairId,jdbcType=INTEGER}, #{operateUserId,jdbcType=INTEGER}
+               , #{detailedDescription,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="A1.Care.domain.WorkOderTrack" useGeneratedKeys="true">
         insert into customer_care_work_oder_track
@@ -78,9 +90,6 @@
                 <if test="operateUserId != null">
                     operate_user_id = #{operateUserId,jdbcType=INTEGER},
                 </if>
-                <if test="operateUser != null">
-                    operate_user = #{operateUser,jdbcType=VARCHAR},
-                </if>
                 <if test="detailedDescription != null">
                     detailed_description = #{detailedDescription,jdbcType=VARCHAR},
                 </if>
@@ -95,7 +104,6 @@
         set 
             repair_id =  #{repairId,jdbcType=INTEGER},
             operate_user_id =  #{operateUserId,jdbcType=INTEGER},
-            operate_user =  #{operateUser,jdbcType=VARCHAR},
             detailed_description =  #{detailedDescription,jdbcType=VARCHAR},
             remark =  #{remark,jdbcType=VARCHAR}
         where   id = #{id,jdbcType=INTEGER} 

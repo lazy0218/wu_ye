@@ -1,7 +1,7 @@
 package A1.Space.vo;
 
 public class HouseVO {
-    private Integer space_houseId;
+    private Integer id;
     private Integer buildId;
     private Double constructionArea;
     private Integer floor;
@@ -17,12 +17,12 @@ public class HouseVO {
     private String avatar;
     private String mobile;
 
-    public Integer getSpace_houseId() {
-        return space_houseId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setSpace_houseId(Integer space_houseId) {
-        this.space_houseId = space_houseId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getBuildId() {

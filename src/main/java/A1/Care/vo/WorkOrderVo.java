@@ -9,10 +9,37 @@ public class WorkOrderVo {
      * 维修订单ID
      */
     private Integer repairId;
-    private String  operateUserName;
+    private String operateUserName;
     private String detailedDescription;
-    private Timestamp  handleTime;
+    private Timestamp handleTime;
     private String remark;
+    private String description;
+    private String userName;
+    private String avatar;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getRemark() {
         return remark;

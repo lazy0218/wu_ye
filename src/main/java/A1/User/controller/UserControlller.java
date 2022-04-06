@@ -1,5 +1,6 @@
 package A1.User.controller;
 
+import A1.AOP.Response.ResultData;
 import A1.Config.DingDing;
 import A1.User.domain.User;
 import A1.User.mapper.UserMapper;
@@ -49,15 +50,22 @@ public class UserControlller {
                 response.sendRedirect("/404");
             }
             assert user != null;
-            StpUtil.login(user.getId());
+            StpUtil.login(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("/welcome");
+        response.sendRedirect("/");
     }
 
     @GetMapping("/api/currentUser")
     public User currentUser() {
         return userMapper.selectByPrimaryKey(StpUtil.getLoginIdAsLong());
     }
+
+    @GetMapping("/api/login/outLogin")
+    public ResultData<String> outLogin() {
+        StpUtil.logout();
+        return ResultData.success("注销成功");
+    }
+
 }

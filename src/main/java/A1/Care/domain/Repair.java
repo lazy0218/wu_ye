@@ -58,14 +58,38 @@ public class Repair implements Serializable {
     private String remark;
 
     /**
-     * 
+     *
      */
     private Integer communityId;
 
     /**
-     * 
+     *
      */
-    private LocalDateTime createtime;
+    private LocalDateTime createTime;
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public Boolean getHandle() {
+        return isHandle;
+    }
+
+    public void setHandle(Boolean handle) {
+        isHandle = handle;
+    }
+
+    public Boolean getPay() {
+        return isPay;
+    }
+
+    public void setPay(Boolean pay) {
+        isPay = pay;
+    }
 
     /**
      * 是否已被处理
@@ -189,8 +213,8 @@ public class Repair implements Serializable {
     /**
      * 预约维修时间
      */
-    public void setAppointment(LocalDateTime appointment) {
-        this.appointment = appointment;
+    public void setAppointment(String appointmentStr) {
+        this.appointment = LocalDateTime.parse(appointmentStr.replace(" ", "T"));
     }
 
     /**
@@ -252,16 +276,7 @@ public class Repair implements Serializable {
     /**
      * 
      */
-    public LocalDateTime getCreatetime() {
-        return createtime;
-    }
 
-    /**
-     * 
-     */
-    public void setCreatetime(LocalDateTime createtime) {
-        this.createtime = createtime;
-    }
 
     /**
      * 是否已被处理
@@ -375,64 +390,6 @@ public class Repair implements Serializable {
         this.isPay = isPay;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Repair other = (Repair) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getContactName() == null ? other.getContactName() == null : this.getContactName().equals(other.getContactName()))
-            && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
-            && (this.getRepairTypeId() == null ? other.getRepairTypeId() == null : this.getRepairTypeId().equals(other.getRepairTypeId()))
-            && (this.getPrivateArea() == null ? other.getPrivateArea() == null : this.getPrivateArea().equals(other.getPrivateArea()))
-            && (this.getAppointment() == null ? other.getAppointment() == null : this.getAppointment().equals(other.getAppointment()))
-            && (this.getDuty() == null ? other.getDuty() == null : this.getDuty().equals(other.getDuty()))
-            && (this.getEmergencyLevel() == null ? other.getEmergencyLevel() == null : this.getEmergencyLevel().equals(other.getEmergencyLevel()))
-            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
-            && (this.getCommunityId() == null ? other.getCommunityId() == null : this.getCommunityId().equals(other.getCommunityId()))
-            && (this.getCreatetime() == null ? other.getCreatetime() == null : this.getCreatetime().equals(other.getCreatetime()))
-            && (this.getIsHandle() == null ? other.getIsHandle() == null : this.getIsHandle().equals(other.getIsHandle()))
-            && (this.getSourceFrom() == null ? other.getSourceFrom() == null : this.getSourceFrom().equals(other.getSourceFrom()))
-            && (this.getReportUserId() == null ? other.getReportUserId() == null : this.getReportUserId().equals(other.getReportUserId()))
-            && (this.getRepairUserId() == null ? other.getRepairUserId() == null : this.getRepairUserId().equals(other.getRepairUserId()))
-            && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))
-            && (this.getCommentLeval() == null ? other.getCommentLeval() == null : this.getCommentLeval().equals(other.getCommentLeval()))
-            && (this.getComment() == null ? other.getComment() == null : this.getComment().equals(other.getComment()))
-            && (this.getIsPay() == null ? other.getIsPay() == null : this.getIsPay().equals(other.getIsPay()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getContactName() == null) ? 0 : getContactName().hashCode());
-        result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
-        result = prime * result + ((getRepairTypeId() == null) ? 0 : getRepairTypeId().hashCode());
-        result = prime * result + ((getPrivateArea() == null) ? 0 : getPrivateArea().hashCode());
-        result = prime * result + ((getAppointment() == null) ? 0 : getAppointment().hashCode());
-        result = prime * result + ((getDuty() == null) ? 0 : getDuty().hashCode());
-        result = prime * result + ((getEmergencyLevel() == null) ? 0 : getEmergencyLevel().hashCode());
-        result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
-        result = prime * result + ((getCommunityId() == null) ? 0 : getCommunityId().hashCode());
-        result = prime * result + ((getCreatetime() == null) ? 0 : getCreatetime().hashCode());
-        result = prime * result + ((getIsHandle() == null) ? 0 : getIsHandle().hashCode());
-        result = prime * result + ((getSourceFrom() == null) ? 0 : getSourceFrom().hashCode());
-        result = prime * result + ((getReportUserId() == null) ? 0 : getReportUserId().hashCode());
-        result = prime * result + ((getRepairUserId() == null) ? 0 : getRepairUserId().hashCode());
-        result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
-        result = prime * result + ((getCommentLeval() == null) ? 0 : getCommentLeval().hashCode());
-        result = prime * result + ((getComment() == null) ? 0 : getComment().hashCode());
-        result = prime * result + ((getIsPay() == null) ? 0 : getIsPay().hashCode());
-        return result;
-    }
 
     @Override
     public String toString() {
@@ -450,7 +407,6 @@ public class Repair implements Serializable {
         sb.append(", emergencyLevel=").append(emergencyLevel);
         sb.append(", remark=").append(remark);
         sb.append(", communityId=").append(communityId);
-        sb.append(", createtime=").append(createtime);
         sb.append(", isHandle=").append(isHandle);
         sb.append(", sourceFrom=").append(sourceFrom);
         sb.append(", reportUserId=").append(reportUserId);

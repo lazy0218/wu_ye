@@ -23,8 +23,11 @@ public class CarPortController {
 
     @ApiOperation("查询车位")
     @GetMapping("/carports")
-    public List<CarPortVO> getCarPorts() {
-        return carportMapper.selectAll();
+    public List<CarPortVO> getCarPorts(@RequestParam(required = false) Integer parkId) {
+        if (parkId == null) {
+            return carportMapper.selectAllByParkingIdCarPortVos(1);
+        }
+        return carportMapper.selectAllByParkingIdCarPortVos(parkId);
     }
 
     @ApiOperation("增加车位")

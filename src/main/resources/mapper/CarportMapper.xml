@@ -36,6 +36,19 @@
                  LEFT JOIN user ON space_carport.user_id = user.id
                  LEFT JOIN space_park ON space_carport.parking_id = space_park.id
     </select>
+    <select id="selectAllByParkingIdCarPortVos" resultType="A1.Space.vo.CarPortVO">
+        SELECT space_carport.*,
+               user.`name`              as user_name,
+               user.avatar_url          as user_avatar_url,
+               user.mobile              as user_mobile,
+               space_park.car_park_name as car_park_name,
+               space_car.license_plate  as license_plate
+        FROM space_carport
+                 LEFT JOIN user ON space_carport.user_id = user.id
+                 LEFT JOIN space_park ON space_carport.parking_id = space_park.id
+                 LEFT JOIN space_car ON space_car.carport_id = space_carport.id
+        where space_carport.parking_id = #{id}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete

@@ -15,7 +15,6 @@
             <result property="emergencyLevel" column="emergency_level" jdbcType="INTEGER"/>
             <result property="remark" column="remark" jdbcType="VARCHAR"/>
             <result property="communityId" column="community_id" jdbcType="INTEGER"/>
-            <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="isHandle" column="is_handle" jdbcType="BIT"/>
             <result property="sourceFrom" column="source_from" jdbcType="VARCHAR"/>
             <result property="reportUserId" column="report_user_id" jdbcType="INTEGER"/>
@@ -30,7 +29,7 @@
         id,contact_name,phone,
         repair_type_id,private_area,appointment,
         duty,emergency_level,remark,
-        community_id,createTime,is_handle,
+        community_id,create_time,is_handle,
         source_from,report_user_id,repair_user_id,
         price,comment_leval,comment,
         is_pay
@@ -46,7 +45,9 @@
         SELECT customer_care_repair.*,
                customer_care_repair_type.`name` AS reparir_type,
                u1.`name`                        AS repair_name,
-               u2.`name`                        AS report_name
+               u1.avatar_url                    AS repair_avatar,
+               u2.`name`                        AS report_name,
+               u2.avatar_url                    AS report_avatar
         FROM customer_care_repair
                  LEFT JOIN user u1 ON customer_care_repair.repair_user_id = u1.id
                  LEFT JOIN user u2 ON customer_care_repair.report_user_id = u2.id
@@ -58,7 +59,9 @@
         SELECT customer_care_repair.*,
                customer_care_repair_type.`name` AS reparir_type,
                u1.`name`                        AS repair_name,
-               u2.`name`                        AS report_name
+               u1.avatar_url                    AS repair_avatar,
+               u2.`name`                        AS report_name,
+               u2.avatar_url                    AS report_avatar
         FROM customer_care_repair
                  LEFT JOIN user u1 ON customer_care_repair.repair_user_id = u1.id
                  LEFT JOIN user u2 ON customer_care_repair.report_user_id = u2.id
@@ -71,7 +74,9 @@
         SELECT customer_care_repair.*,
                customer_care_repair_type.`name` AS reparir_type,
                u1.`name`                        AS repair_name,
-               u2.`name`                        AS report_name
+               u1.avatar_url                    AS repair_avatar,
+               u2.`name`                        AS report_name,
+               u2.avatar_url                    AS report_avatar
         FROM customer_care_repair
                  LEFT JOIN user u1 ON customer_care_repair.repair_user_id = u1.id
                  LEFT JOIN user u2 ON customer_care_repair.report_user_id = u2.id
@@ -100,20 +105,20 @@
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Care.domain.Repair" useGeneratedKeys="true">
         insert into customer_care_repair
-        ( id,contact_name,phone
-        ,repair_type_id,private_area,appointment
-        ,duty,emergency_level,remark
-        ,community_id,createTime,is_handle
-        ,source_from,report_user_id,repair_user_id
-        ,price,comment_leval,comment
-        ,is_pay)
-        values (#{id,jdbcType=INTEGER},#{contactName,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR}
-        ,#{repairTypeId,jdbcType=INTEGER},#{privateArea,jdbcType=BIT},#{appointment,jdbcType=TIMESTAMP}
-        ,#{duty,jdbcType=BIT},#{emergencyLevel,jdbcType=INTEGER},#{remark,jdbcType=VARCHAR}
-        ,#{communityId,jdbcType=INTEGER},#{createtime,jdbcType=TIMESTAMP},#{isHandle,jdbcType=BIT}
-        ,#{sourceFrom,jdbcType=VARCHAR},#{reportUserId,jdbcType=INTEGER},#{repairUserId,jdbcType=INTEGER}
-        ,#{price,jdbcType=DECIMAL},#{commentLeval,jdbcType=INTEGER},#{comment,jdbcType=VARCHAR}
-        ,#{isPay,jdbcType=BIT})
+        ( id, contact_name, phone
+        , repair_type_id, private_area, appointment
+        , duty, emergency_level, remark
+        , community_id, create_time, is_handle
+        , source_from, report_user_id, repair_user_id
+        , price, comment_leval, comment
+        , is_pay)
+        values ( #{id,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}
+               , #{repairTypeId,jdbcType=INTEGER}, #{privateArea,jdbcType=BIT}, #{appointment,jdbcType=TIMESTAMP}
+               , #{duty,jdbcType=BIT}, #{emergencyLevel,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+               , #{communityId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isHandle,jdbcType=BIT}
+               , #{sourceFrom,jdbcType=VARCHAR}, #{reportUserId,jdbcType=INTEGER}, #{repairUserId,jdbcType=INTEGER}
+               , #{price,jdbcType=DECIMAL}, #{commentLeval,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}
+               , #{isPay,jdbcType=BIT})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="A1.Care.domain.Repair" useGeneratedKeys="true">
         insert into customer_care_repair
@@ -190,9 +195,9 @@
                 <if test="communityId != null">
                     community_id = #{communityId,jdbcType=INTEGER},
                 </if>
-                <if test="createtime != null">
-                    createTime = #{createtime,jdbcType=TIMESTAMP},
-                </if>
+            <if test="createTime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
                 <if test="isHandle != null">
                     is_handle = #{isHandle,jdbcType=BIT},
                 </if>
@@ -222,25 +227,24 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="A1.Care.domain.Repair">
         update customer_care_repair
-        set 
-            contact_name =  #{contactName,jdbcType=VARCHAR},
-            phone =  #{phone,jdbcType=VARCHAR},
-            repair_type_id =  #{repairTypeId,jdbcType=INTEGER},
-            private_area =  #{privateArea,jdbcType=BIT},
-            appointment =  #{appointment,jdbcType=TIMESTAMP},
-            duty =  #{duty,jdbcType=BIT},
-            emergency_level =  #{emergencyLevel,jdbcType=INTEGER},
-            remark =  #{remark,jdbcType=VARCHAR},
-            community_id =  #{communityId,jdbcType=INTEGER},
-            createTime =  #{createtime,jdbcType=TIMESTAMP},
-            is_handle =  #{isHandle,jdbcType=BIT},
-            source_from =  #{sourceFrom,jdbcType=VARCHAR},
-            report_user_id =  #{reportUserId,jdbcType=INTEGER},
-            repair_user_id =  #{repairUserId,jdbcType=INTEGER},
-            price =  #{price,jdbcType=DECIMAL},
-            comment_leval =  #{commentLeval,jdbcType=INTEGER},
-            comment =  #{comment,jdbcType=VARCHAR},
-            is_pay =  #{isPay,jdbcType=BIT}
-        where   id = #{id,jdbcType=INTEGER} 
+        set contact_name    = #{contactName,jdbcType=VARCHAR},
+            phone           = #{phone,jdbcType=VARCHAR},
+            repair_type_id  = #{repairTypeId,jdbcType=INTEGER},
+            private_area    = #{privateArea,jdbcType=BIT},
+            appointment     = #{appointment,jdbcType=TIMESTAMP},
+            duty            = #{duty,jdbcType=BIT},
+            emergency_level = #{emergencyLevel,jdbcType=INTEGER},
+            remark          = #{remark,jdbcType=VARCHAR},
+            community_id    = #{communityId,jdbcType=INTEGER},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            is_handle       = #{isHandle,jdbcType=BIT},
+            source_from     = #{sourceFrom,jdbcType=VARCHAR},
+            report_user_id  = #{reportUserId,jdbcType=INTEGER},
+            repair_user_id  = #{repairUserId,jdbcType=INTEGER},
+            price           = #{price,jdbcType=DECIMAL},
+            comment_leval   = #{commentLeval,jdbcType=INTEGER},
+            comment         = #{comment,jdbcType=VARCHAR},
+            is_pay          = #{isPay,jdbcType=BIT}
+        where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>

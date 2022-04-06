@@ -1,9 +1,8 @@
 package A1.AOP.Response;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @author 闫瑞松
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @function T1
  */
 @Slf4j
-@RestControllerAdvice
+@ControllerAdvice
 public class RestExceptionHandler {
     /**
      * 默认全局异常处理。
@@ -21,10 +20,8 @@ public class RestExceptionHandler {
      * @return ResultData
      */
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResultData<String> exception(Exception e) {
+    public Object exception(Exception e) {
         log.error("全局异常信息 ex={}", e.getMessage(), e);
         return ResultData.fail(e.getMessage());
     }
-
 }

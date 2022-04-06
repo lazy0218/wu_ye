@@ -4,7 +4,6 @@ import A1.AOP.Response.ResultData;
 import A1.Space.domain.Build;
 import A1.Space.mapper.BuildMapper;
 import A1.Space.mapper.CommunityMapper;
-import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -30,13 +29,13 @@ public class BuildController {
     @ApiOperation("查询所在小区所有楼栋")
     @GetMapping("/builds")
     public List<Build> getBuilds() {
-        return buildMapper.findAllByCommunityIdBuilds(StpUtil.getLoginIdAsLong());
+        return buildMapper.findAllByCommunityIdBuilds(1L);
     }
 
     @ApiOperation("创建一栋楼")
     @PostMapping("/build")
     public Build post_build(@RequestBody Build build) {
-        build.setCommunityId(communityMapper.selectAllByUserIdCommunity(StpUtil.getLoginIdAsLong()).getId());
+        build.setCommunityId(communityMapper.selectAllByUserIdCommunity(1L).getId());
         buildMapper.insert(build);
         return build;
     }

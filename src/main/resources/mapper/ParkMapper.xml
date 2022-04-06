@@ -20,9 +20,14 @@
         from space_park
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectAll" resultType="A1.Space.domain.Park">
-        select *
-        from space_park
+    <select id="selectAll" resultType="A1.Space.vo.ParkVO">
+        SELECT count(*)                                           AS count_carport,
+               count(space_carport.carport_state = "未出售" or null) AS unsale,
+               space_park.id,
+               space_park.car_park_name
+        FROM space_park
+                 LEFT JOIN space_carport ON space_carport.parking_id = space_park.id
+        GROUP BY space_park.id
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

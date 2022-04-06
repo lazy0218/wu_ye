@@ -14,6 +14,8 @@ import java.util.List;
 public interface CarportMapper {
     List<CarPortVO> selectAll();
 
+    List<CarPortVO> selectAllByParkingIdCarPortVos(int id);
+
     int deleteByPrimaryKey(Long id);
 
     int insert(Carport record);

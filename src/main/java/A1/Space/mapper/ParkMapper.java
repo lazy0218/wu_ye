@@ -1,6 +1,7 @@
 package A1.Space.mapper;
 
 import A1.Space.domain.Park;
+import A1.Space.vo.ParkVO;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @Entity A1.Space.domain.Park
  */
 public interface ParkMapper {
-    List<Park> selectAll();
+    List<ParkVO> selectAll();
 
     int deleteByPrimaryKey(Long id);
 

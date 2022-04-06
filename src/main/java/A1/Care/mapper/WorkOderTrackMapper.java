@@ -14,6 +14,8 @@ import java.util.List;
 public interface WorkOderTrackMapper {
     List<WorkOrderVo> searchAllByRepairIdWorkOrderVo(Long id);
 
+    List<WorkOrderVo> getAllByTime();
+
     int deleteByPrimaryKey(Long id);
 
     int insert(WorkOderTrack record);

@@ -4,7 +4,6 @@ import A1.AOP.Response.ResultData;
 import A1.Space.domain.House;
 import A1.Space.mapper.HouseMapper;
 import A1.Space.vo.HouseVO;
-import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
@@ -32,7 +31,7 @@ public class HouseCorotroller {
     public List<HouseVO> getHouses(@RequestParam(required = false) String buildId){
         List<HouseVO> houseVOS=null;
         if (buildId==null){
-            houseVOS = houseMapper.selectAllByUserIdHouseVos(StpUtil.getLoginIdAsLong());
+            houseVOS = houseMapper.selectAllByUserIdHouseVos(1L);
         }
         else{
             houseVOS = houseMapper.selectAllByBuildIdHouseVos(Long.valueOf(buildId));

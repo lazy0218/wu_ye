@@ -15,6 +15,9 @@ public interface RepairMapper {
     List<RepairVo> selectAllByAssignedOrder();
     List<RepairVo> selectAllByProcessed();
     List<RepairVo> selectAllByUnpaid();
+
+    List<RepairVo> selectAllBySuuecss();
+
     RepairVo selectAllByIdRepairVo(Long id);
 
     int deleteByPrimaryKey(Long id);

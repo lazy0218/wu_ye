@@ -12,7 +12,7 @@
             <result property="privateArea" column="private_area" jdbcType="BIT"/>
             <result property="appointment" column="appointment" jdbcType="TIMESTAMP"/>
             <result property="duty" column="duty" jdbcType="BIT"/>
-            <result property="emergencyLevel" column="emergency_level" jdbcType="INTEGER"/>
+        <result property="emergencyLevel" column="emergency_level" jdbcType="INTEGER"/>
             <result property="remark" column="remark" jdbcType="VARCHAR"/>
             <result property="communityId" column="community_id" jdbcType="INTEGER"/>
             <result property="isHandle" column="is_handle" jdbcType="BIT"/>
@@ -90,7 +90,9 @@
         SELECT customer_care_repair.*,
                customer_care_repair_type.`name` AS reparir_type,
                u1.`name`                        AS repair_name,
-               u2.`name`                        AS report_name
+               u1.avatar_url                    AS repair_avatar,
+               u2.`name`                        AS report_name,
+               u2.avatar_url                    AS report_avatar
         FROM customer_care_repair
                  LEFT JOIN user u1 ON customer_care_repair.repair_user_id = u1.id
                  LEFT JOIN user u2 ON customer_care_repair.report_user_id = u2.id
@@ -98,10 +100,27 @@
                            ON customer_care_repair.repair_type_id = customer_care_repair_type.id
         WHERE customer_care_repair.id = #{id}
     </select>
+    <select id="selectAllBySuuecss" resultType="A1.Care.vo.RepairVo">
+        SELECT customer_care_repair.*,
+               customer_care_repair_type.`name` AS reparir_type,
+               u1.`name`                        AS repair_name,
+               u1.avatar_url                    AS repair_avatar,
+               u2.`name`                        AS report_name,
+               u2.avatar_url                    AS report_avatar
+        FROM customer_care_repair
+                 LEFT JOIN user u1 ON customer_care_repair.repair_user_id = u1.id
+                 LEFT JOIN user u2 ON customer_care_repair.report_user_id = u2.id
+                 LEFT JOIN customer_care_repair_type
+                           ON customer_care_repair.repair_type_id = customer_care_repair_type.id
+        WHERE customer_care_repair.repair_user_id IS NOT NULL
+          AND customer_care_repair.is_handle = 1
+          AND customer_care_repair.is_pay = 1
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from customer_care_repair
-        where  id = #{id,jdbcType=INTEGER} 
+        delete
+        from customer_care_repair
+        where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="A1.Care.domain.Repair" useGeneratedKeys="true">
         insert into customer_care_repair
@@ -196,7 +215,7 @@
                     community_id = #{communityId,jdbcType=INTEGER},
                 </if>
             <if test="createTime != null">
-                createTime = #{createtime,jdbcType=TIMESTAMP},
+                create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
                 <if test="isHandle != null">
                     is_handle = #{isHandle,jdbcType=BIT},

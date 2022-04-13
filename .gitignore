@@ -32,3 +32,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/log/运行日志.log

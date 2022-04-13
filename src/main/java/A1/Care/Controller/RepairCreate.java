@@ -5,7 +5,6 @@ import A1.Care.domain.WorkOderTrack;
 import A1.Care.mapper.RepairMapper;
 import A1.Care.mapper.RepairTypeMapper;
 import A1.Care.mapper.WorkOderTrackMapper;
-import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -28,12 +27,10 @@ public class RepairCreate {
     @Resource
     WorkOderTrackMapper workOderTrackMapper;
 
+
     @ApiOperation("创建订单")
     @PostMapping("/post")
     public Repair addOrder(@RequestBody Repair repair) {
-        if (repair.getReportUserId() == null) {
-            repair.setReportUserId(StpUtil.getLoginIdAsInt());
-        }
         repair.setIsHandle(false);
         repair.setIsPay(false);
         repair.setSourceFrom("电话登记");
@@ -51,14 +48,13 @@ public class RepairCreate {
 
     @ApiOperation("分派订单")
     @PostMapping("/dispatch")
-    public Repair coroOrder(@RequestParam Long repairId, @RequestParam Integer userId, @RequestParam Integer operUserId) {
+    public Repair coroOrder(@RequestParam Long repairId, @RequestParam Integer userId, @RequestParam String remark) {
         Repair repair = repairMapper.selectByPrimaryKey(repairId);
         repair.setRepairUserId(userId);
         repairMapper.updateByPrimaryKeySelective(repair);
-
         WorkOderTrack workOderTrack = new WorkOderTrack();
         workOderTrack.setRepairId(Math.toIntExact(repairId));
-        workOderTrack.setOperateUserId(operUserId);
+        workOderTrack.setOperateUserId(1);
         workOderTrack.setDetailedDescription("派单了");
         workOderTrackMapper.insert(workOderTrack);
         return repair;
@@ -66,13 +62,15 @@ public class RepairCreate {
 
     @ApiOperation("处理订单")
     @PostMapping("/handle")
-    public Repair handleOrder(@RequestParam Long repairId, @RequestParam Double price, @RequestParam String remark) {
+    public Repair handleOrder(@RequestParam Long repairId, @RequestParam Double price, @RequestParam String remark,
+                              @RequestParam Long userId) {
         Repair repair = repairMapper.selectByPrimaryKey(repairId);
-        repair.setIsPay(true);
+        repair.setIsPay(false);
         repair.setIsHandle(true);
         repair.setPrice(BigDecimal.valueOf(price));
+        repairMapper.updateByPrimaryKey(repair);
         WorkOderTrack workOderTrack = new WorkOderTrack();
-        workOderTrack.setOperateUserId(Math.toIntExact(StpUtil.getLoginIdAsLong()));
+        workOderTrack.setOperateUserId(Math.toIntExact(userId));
         workOderTrack.setRepairId(Math.toIntExact(repairId));
         workOderTrack.setDetailedDescription("处理了");
         workOderTrack.setRemark(remark);
@@ -80,17 +78,20 @@ public class RepairCreate {
         return repair;
     }
 
-    @ApiOperation("订单评分")
+
+    @ApiOperation("订单评分 与支付")
     @PostMapping("/comment")
-    public Repair comment(@RequestParam Long repairId, @RequestParam String comment, @RequestParam Integer comment_leval) {
+    public Repair comment(@RequestParam Long repairId, @RequestParam Long userId, @RequestParam String comment, @RequestParam Integer comment_leval) {
         val repair = repairMapper.selectByPrimaryKey(repairId);
         repair.setCommentLeval(comment_leval);
+        repair.setIsPay(true);
         repair.setComment(comment);
         repairMapper.updateByPrimaryKey(repair);
         WorkOderTrack workOderTrack = new WorkOderTrack();
         workOderTrack.setRepairId(Math.toIntExact(repairId));
+        workOderTrack.setOperateUserId(Math.toIntExact(userId));
         workOderTrack.setDetailedDescription("评价了");
-        workOderTrack.setRemark(comment);
+        workOderTrack.setRemark("评价:" + comment);
         workOderTrackMapper.insert(workOderTrack);
         return repair;
     }

@@ -1,11 +1,13 @@
 package A1.Space.Controller;
 
+import A1.Space.domain.Park;
 import A1.Space.mapper.ParkMapper;
 import A1.Space.vo.ParkVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +26,11 @@ public class ParkController {
     @GetMapping("/parks")
     public List<ParkVO> getParks() {
         return parkMapper.selectAll();
+    }
+
+    @ApiOperation("添加车场")
+    public int addPark(@RequestBody Park park) {
+        return parkMapper.insert(park);
     }
 
 }

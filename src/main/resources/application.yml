@@ -57,6 +57,8 @@ server:
 logging:
   pattern:
     console: '%clr(%d{${LOG_DATEFORMAT_PATTERN:mm:ss}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}){faint}  %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}'
+  file:
+    path: "log"
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:

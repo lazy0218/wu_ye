@@ -39,4 +39,12 @@ public class RepaireSearchController {
     public List<RepairVo> getUnpaid() {
         return repairMapper.selectAllByUnpaid();
     }
+
+    @ApiOperation("已完成订单")
+    @GetMapping("/ok")
+    public List<RepairVo> getSuccess() {
+        return repairMapper.selectAllBySuuecss();
+    }
+
+
 }
